@@ -622,8 +622,8 @@ import re
 class Bingo:
     def __init__(self, size):
         self.size = size
-        self.board = np.zeros(size)
-        self.marked = np.zeros(size)
+        self.board = np.zeros([size,size])
+        self.marked = np.zeros([size,size])
         
     def initialize(self, arr):
         # set up the board
@@ -636,7 +636,7 @@ class Bingo:
         for i in range(self.size):
             for j in range(self.size):
                 if self.board[i][j] == num:
-                    self.marked[i][j] = num
+                    self.marked[i][j] = 1
                     
     def is_solved(self):
         # check if the board is solved
@@ -672,5 +672,16 @@ while boards_raw:
     boards.append(b3)
     
 #%% Part 1
-# Go through 
-for num 
+# Go through the boards
+is_found = False
+for num in numbers:
+    print(num)
+    for board in boards:
+        board.mark(num)
+        if board.is_solved():
+            print(num * board.unmarked_sum())
+            print(board.board)
+            print(board.marked)
+            is_found = True
+    if is_found:
+        break
