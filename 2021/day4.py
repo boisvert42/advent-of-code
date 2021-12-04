@@ -619,6 +619,7 @@ input = '''
 #%% Set up the Bingo class
 import numpy as np
 import re
+import copy
 class Bingo:
     def __init__(self, size):
         self.size = size
@@ -671,17 +672,40 @@ while boards_raw:
     b3.initialize(b2)
     boards.append(b3)
     
+boards_orig = copy.deepcopy(boards)
+    
 #%% Part 1
-# Go through the boards
+# Go through the boards to find the first winning board
+boards = copy.deepcopy(boards_orig)
+
 is_found = False
 for num in numbers:
     print(num)
     for board in boards:
         board.mark(num)
         if board.is_solved():
+            print('--')
             print(num * board.unmarked_sum())
             print(board.board)
             print(board.marked)
             is_found = True
     if is_found:
+        break
+    
+#%% Part 2: what's the last board to win?
+boards = copy.deepcopy(boards_orig)
+solved_boards = [0] * len(boards)
+final_board_found = False
+for num in numbers:
+    for i, board in enumerate(boards):
+        board.mark(num)
+        if board.is_solved():
+            solved_boards[i] = 1
+        # if this was the final board to be solved, do the calculations
+        if sum(solved_boards) == len(solved_boards):
+            final_board_found = True
+            print(num * board.unmarked_sum())
+            print(board.board)
+            break
+    if final_board_found:
         break
