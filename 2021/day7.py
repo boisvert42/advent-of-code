@@ -57,5 +57,26 @@ for m in range(min(_input), max(_input)):
 
 print(M, min_f)
 
+#%% Part 2 (much more satisfying way)
+
+def triangular(x):
+    x = abs(x)
+    return x * (x+1)/2
+
+def f(m):
+    ctr = 0
+    for x in _input:
+        ctr += triangular(x-m)
+    return ctr
+
+mean_input = sum(_input)/len(_input)
+median_input = np.median(_input)
+
+if median_input > mean_input:
+    M = np.ceil(mean_input)
+    print(M, f(M))
+else:
+    M = np.floor(mean_input)
+    print(M, f(M))
 
 
